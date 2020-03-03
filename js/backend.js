@@ -9,7 +9,7 @@
   var TIMEOUT_IN_MS = 10000;
 
   window.backend = {
-    load: function (onLoad, onError) {
+    load: function (onLoad, onError, data) {
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
 
@@ -29,30 +29,13 @@
 
       xhr.timeout = TIMEOUT_IN_MS;
 
-      xhr.open('GET', URL_LOAD);
-      xhr.send();
-    },
-
-    save: function (data, onLoad, onError) {
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = 'json';
-
-      xhr.addEventListener('load', function () {
-        if (xhr.status === StatusCode.OK) {
-          onLoad(xhr.response);
-        } else {
-          onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
-        }
-      });
-      xhr.addEventListener('error', function () {
-        onError('Произошла ошибка соединения');
-      });
-      xhr.addEventListener('timeout', function () {
-        onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-      });
-
-      xhr.open('POST', URL_SAVE);
-      xhr.send(data);
+      if (data) {
+        xhr.open('POST', URL_SAVE);
+        xhr.send(data);
+      } else {
+        xhr.open('GET', URL_LOAD);
+        xhr.send();
+      }
     }
   };
 })();

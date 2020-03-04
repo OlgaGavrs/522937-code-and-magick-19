@@ -1,6 +1,8 @@
 'use strict';
 (function () {
   var COUNT_WIZARD = 4;
+  var URL_LOAD = 'https://js.dump.academy/code-and-magick/data';
+  var URL_SAVE = 'https://js.dump.academy/code-and-magick';
 
   var userDialog = document.querySelector('.setup');
   var form = userDialog.querySelector('.setup-wizard-form');
@@ -34,7 +36,7 @@
     document.querySelector('header').before(element);
   };
 
-  window.backend.load(function (wizards) {
+  window.backend.load('', 'GET', URL_LOAD, function (wizards) {
     for (var i = 0; i < COUNT_WIZARD; i++) {
       fragment.appendChild(renderWizard(wizards[i]));
     }
@@ -44,11 +46,11 @@
   }, displayError);
 
   form.addEventListener('submit', function (evt) {
-    window.backend.load(function () {
+    window.backend.load(new FormData(form), 'POST', URL_SAVE, function () {
       userDialog.classList.add('hidden');
     });
     evt.preventDefault();
-  }, displayError, new FormData(form));
+  }, displayError);
 
   window.colorize(wizardCoat, coatColors, 'coat-color');
   window.colorize(wizardEyes, eyesColors, 'eyes-color');

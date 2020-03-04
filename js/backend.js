@@ -1,15 +1,15 @@
 'use strict';
 
 (function () {
-  var URL_LOAD = 'https://js.dump.academy/code-and-magick/data';
-  var URL_SAVE = 'https://js.dump.academy/code-and-magick';
+  // var URL_LOAD = 'https://js.dump.academy/code-and-magick/data';
+  // var URL_SAVE = 'https://js.dump.academy/code-and-magick';
   var StatusCode = {
     OK: 200
   };
   var TIMEOUT_IN_MS = 10000;
 
   window.backend = {
-    load: function (onLoad, onError, data) {
+    load: function (data, method, URL, onLoad, onError) {
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
 
@@ -29,13 +29,8 @@
 
       xhr.timeout = TIMEOUT_IN_MS;
 
-      if (data) {
-        xhr.open('POST', URL_SAVE);
-        xhr.send(data);
-      } else {
-        xhr.open('GET', URL_LOAD);
-        xhr.send();
-      }
+      xhr.open(method, URL);
+      xhr.send(data);
     }
   };
 })();

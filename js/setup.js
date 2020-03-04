@@ -36,7 +36,7 @@
     document.querySelector('header').before(element);
   };
 
-  window.backend.load('', 'GET', URL_LOAD, function (wizards) {
+  window.backend.load('GET', URL_LOAD, function (wizards) {
     for (var i = 0; i < COUNT_WIZARD; i++) {
       fragment.appendChild(renderWizard(wizards[i]));
     }
@@ -46,11 +46,11 @@
   }, displayError);
 
   form.addEventListener('submit', function (evt) {
-    window.backend.load(new FormData(form), 'POST', URL_SAVE, function () {
+    window.backend.load('POST', URL_SAVE, function () {
       userDialog.classList.add('hidden');
-    });
+    }, displayError, new FormData(form));
     evt.preventDefault();
-  }, displayError);
+  });
 
   window.colorize(wizardCoat, coatColors, 'coat-color');
   window.colorize(wizardEyes, eyesColors, 'eyes-color');

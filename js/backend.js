@@ -1,15 +1,13 @@
 'use strict';
 
 (function () {
-  // var URL_LOAD = 'https://js.dump.academy/code-and-magick/data';
-  // var URL_SAVE = 'https://js.dump.academy/code-and-magick';
   var StatusCode = {
     OK: 200
   };
   var TIMEOUT_IN_MS = 10000;
 
   window.backend = {
-    load: function (data, method, URL, onLoad, onError) {
+    load: function (method, URL, onLoad, onError, data) {
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
 
@@ -30,6 +28,9 @@
       xhr.timeout = TIMEOUT_IN_MS;
 
       xhr.open(method, URL);
+      if (!data) {
+        data = '';
+      }
       xhr.send(data);
     }
   };
